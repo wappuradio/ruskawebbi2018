@@ -1,0 +1,360 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300');
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font: normal 300 100%/1.5 "Open Sans", sans-serif;
+}
+
+.symbols {
+  display: none;
+}
+
+h1, h2, h3 {
+  font-family: PrismaWappuradio, sans-serif;
+  font-weight: 400;
+  margin: 0;
+}
+
+h1 {
+  font-size: 3em;
+}
+
+h2 {
+  font-size: 1.75em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+p {
+  margin: 0;
+  & + p {
+    margin-top: 1em;
+  }
+}
+
+@keyframes anim-waves {
+  0% {
+    transform: translate(-1%, -1%);
+  }
+  100% {
+    transform: translate(1%, 1%);
+  }
+}
+
+.wave {
+  &-a {
+    fill: #287266;
+    opacity: .72;
+  }
+  &-b {
+    fill: #80CDC4;
+  }
+  &-c {
+    fill: #487D79;
+    opacity: .72;
+  }
+  &-d {
+    fill: #049D9D;
+  }
+}
+
+.wavegroup {
+  animation: anim-waves 6s ease-in-out 0 infinite alternate;
+  &.-b {
+    animation-direction: alternate-reverse;
+  }
+}
+
+.fog { fill: #C4C3C3; opacity: .19; }
+
+.main-wrapper, .info {
+  width: 100vw;
+}
+
+.main-wrapper {
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.main {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.svg-main {
+  position: absolute;
+
+  @media (orientation: landscape) {
+    width: 125vw;
+    height: 125vw;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  @media (orientation: portrait) {
+    width: 120vh;
+    height: 120vh;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.info {
+  position: relative;
+  box-sizing: border-box;
+  top: 100vh;
+  z-index: 1;
+  background: transparentize(#494949, 0.05);
+  color: #FFFFFF;
+  .wrap {
+    box-sizing: border-box;
+    padding: 1em;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 60em;
+    margin: auto;
+  }
+  .col {
+    flex: 1;
+    min-width: 20em;
+    padding: 0 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    &>div {
+      padding: 1em 0;
+    }
+  }
+  .social, .logos {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  .social {
+    svg {
+      width: 4em;
+      height: 4em;
+    }
+  }
+  .logos {
+    flex-wrap: wrap;
+    svg {
+      width: 10em;
+      height: 2.5em;
+    }
+  }
+  a {
+    transition: all 0.25s ease-in-out;
+    color: #80CDC4;
+    &:hover {
+      color: white;
+    }
+    svg { fill: currentColor; }
+  }
+}
+
+.cal {
+  @media (min-width: 50em) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(25, 1fr);
+    max-width: 60em;
+
+    .cell {
+      @for $i from 1 through 4 {
+        &.-d#{$i} {
+          grid-column: $i;
+        }
+      }
+      &.-date {
+        grid-row: 1;
+      }
+      @for $i from 0 through 24 {
+        &.-h#{$i} {
+          grid-row-start: $i + 2;
+        }
+      }
+      @for $i from 1 through 7 {
+        &.-l#{$i} {
+          grid-row-end: span $i;
+        }
+      }
+    }
+  }
+
+  margin: auto;
+  padding: 2em 2em 4em;
+
+  h1 { font-size: 0.875em; }
+  h2 { font-size: 0.75em; }
+  h3 { font: normal 300 0.875em/1.5 "Open Sans", sans-serif; }
+
+  h2, h3 {
+    display: inline;
+  }
+
+  .cell {
+    margin: 0.125em;
+    padding: 0.25em 0.5em;
+    &.-program {
+      background: #80CDC4;
+      color: #1C1C1C;
+      border-radius: 0.25em;
+      @for $i from 1 through 4 {
+        &:nth-child(4n + #{$i}) {
+          transform: rotate(#{(-2 + $i)/3}deg) skew(#{(-2 + $i)/3}deg, 0);
+        }
+      }
+    }
+  }
+}
+
+.stream-links {
+  padding: 0;
+  margin: 0;
+  li {
+    margin: 0;
+    display: inline;
+    &:after { content: ' | '; }
+    &:last-child:after { content: none; }
+  }
+}
+
+.controls {
+  cursor: pointer;
+  .button, .icon, .back { transition: all 0.15s ease-in-out; }
+  .back { fill: #000000; }
+  .button { fill: #1E1E1E; }
+  .icon { fill: #DBDBDB; }
+  &:hover {
+    .back { fill: #1E1E1E; }
+    .button { fill: #282828; }
+    .icon { fill: #EFEFEF; }
+  }
+  .icon.-stop { opacity: 0; }
+}
+
+.main.-video .controls.-video, .main.-radio .controls.-radio {
+  .button { fill: #D8D8D8; }
+  .icon {
+    fill: #1E1E1E;
+    &.-play { opacity: 0; }
+    &.-stop { opacity: 1; }
+  }
+}
+
+.screen {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: -0.125em;
+    bottom: -0.125em;
+    left: -0.125em;
+    right: -0.125em;
+    box-shadow: inset 0 0 0.5em 0.75em #1C1C1C;
+  }
+
+  video {
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+
+    .main.-video & {
+      opacity: 1;
+    }
+  }
+
+  @media (orientation: landscape) {
+    &, &:after { border-radius: 3.8vw; }
+    width: 34.2vw;
+    height: 30.6vw;
+    left: 40.5vw;
+    top: calc(50% + 0.6vw);
+    transform: translateY(-50%) rotate(-5deg);
+  }
+
+  @media (orientation: portrait) {
+    &, &:after { border-radius: 3.4vh; }
+    width: 32.9vh;
+    height: 29.3vh;
+    top: 45.7vh;
+    left: calc(50% - 4.7vh);
+    transform: translateX(-50%) rotate(-5deg);
+  }
+}
+
+@keyframes anim-now-playing {
+  0% {
+    left: 100%;
+    transform: translateX(0);
+  }
+  100% {
+    left: 0%;
+    transform: translateX(-100%);
+  }
+}
+
+.playing {
+  color: #FFF;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  .-video & {
+    bottom: auto;
+    display: block;
+    background: #D80000;
+    padding: 1em 0 2em;
+    p {
+      position: absolute;
+      white-space: nowrap;
+      animation: anim-now-playing 10s linear infinite;
+    }
+  }
+}
+
+.svg-title {
+  position: fixed;
+  .stamp { fill: #1E1E1E; }
+  .logo { fill: #049D9D; }
+  .presents { fill: #287266; }
+
+  @media (orientation: landscape) {
+    width: 32.7vw;
+    height: 37.1vw;
+    top: 4vw;
+    left: 4vw;
+    .logo, .presents { transform: translate(0, 0); }
+    .stamp { transform: translate(0, 0); }
+  }
+
+  @media (orientation: portrait) {
+    width: 100vw;
+    height: 34vh;
+    .logo { transform: translate(-20%, 10%); }
+    .presents { transform: translate(8%, 10%); }
+    .stamp { transform: translate(40%, -35%); }
+  }
+}
